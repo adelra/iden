@@ -1,0 +1,47 @@
+[project]
+name = "iden"
+version = "0.1.0"
+description = "A unified Python ID generator library."
+authors = [{ name = "Adel Rahimi", email = "rahimi.adel@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/adelra/iden"
+"Bug Tracker" = "https://github.com/adelra/iden/issues"
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "black",
+    "hypothesis",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+source = ["src"]

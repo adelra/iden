@@ -1,0 +1,38 @@
+name: Python CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      run: |
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: uv pip install -e .[dev]
+
+    - name: Check formatting with black
+      run: uv run black --check .
+
+    - name: Lint with ruff
+      run: uv run ruff check .
+
+    - name: Analyze with mypy
+      run: uv run mypy src
+
+    - name: Run tests
+      run: uv run pytest
