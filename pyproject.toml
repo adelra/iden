@@ -40,7 +40,7 @@ pythonpath = [
   "src"
 ]
 testpaths = [
-    "tests/**/*.py",
+    "tests",
 ]
 
 [tool.coverage.run]
