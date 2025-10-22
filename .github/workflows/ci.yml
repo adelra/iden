@@ -31,8 +31,7 @@ jobs:
     - name: Install dependencies
       run: |
         uv venv
-        uv sync
-        uv pip install -e .
+        uv pip install --locked -e .[dev]
     - name: Check formatting with black
       run: uv run black --check .
 
