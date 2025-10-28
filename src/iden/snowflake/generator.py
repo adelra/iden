@@ -1,4 +1,3 @@
-
 import time
 import datetime
 
@@ -6,18 +5,28 @@ import datetime
 SNOWFLAKE_EPOCH_DATETIME = datetime.datetime(
     2010, 11, 4, 1, 42, 54, 657000, tzinfo=datetime.timezone.utc
 )
-SNOWFLAKE_EPOCH = int(SNOWFLAKE_EPOCH_DATETIME.timestamp() * 1000) # Convert to milliseconds
+SNOWFLAKE_EPOCH = int(
+    SNOWFLAKE_EPOCH_DATETIME.timestamp() * 1000
+)  # Convert to milliseconds
 
-WORKER_ID_BITS = 5  # Number of bits allocated for the worker ID (allows 2^5 = 32 unique workers)
+WORKER_ID_BITS = (
+    5  # Number of bits allocated for the worker ID (allows 2^5 = 32 unique workers)
+)
 DATACENTER_ID_BITS = 5  # Number of bits allocated for the datacenter ID (allows 2^5 = 32 unique datacenters)
 SEQUENCE_BITS = 12  # Number of bits allocated for the sequence number (allows 2^12 = 4096 IDs per millisecond)
 
 MAX_WORKER_ID = -1 ^ (-1 << WORKER_ID_BITS)  # Maximum value for the worker ID
-MAX_DATACENTER_ID = -1 ^ (-1 << DATACENTER_ID_BITS)  # Maximum value for the datacenter ID
+MAX_DATACENTER_ID = -1 ^ (
+    -1 << DATACENTER_ID_BITS
+)  # Maximum value for the datacenter ID
 
 WORKER_ID_SHIFT = SEQUENCE_BITS  # How many bits to shift the worker ID to the left
-DATACENTER_ID_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS  # How many bits to shift the datacenter ID to the left
-TIMESTAMP_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATACENTER_ID_BITS  # How many bits to shift the timestamp to the left
+DATACENTER_ID_SHIFT = (
+    SEQUENCE_BITS + WORKER_ID_BITS
+)  # How many bits to shift the datacenter ID to the left
+TIMESTAMP_SHIFT = (
+    SEQUENCE_BITS + WORKER_ID_BITS + DATACENTER_ID_BITS
+)  # How many bits to shift the timestamp to the left
 
 SEQUENCE_MASK = -1 ^ (-1 << SEQUENCE_BITS)
 
@@ -25,13 +34,13 @@ SEQUENCE_MASK = -1 ^ (-1 << SEQUENCE_BITS)
 class Snowflake:
     """Represents a Snowflake ID."""
 
-    def __init__(self, timestamp: int, worker_id: int, datacenter_id: int, sequence: int):
+    def __init__(
+        self, timestamp: int, worker_id: int, datacenter_id: int, sequence: int
+    ):
         if not (0 <= worker_id <= MAX_WORKER_ID):
             raise ValueError(f"Worker ID must be between 0 and {MAX_WORKER_ID}")
         if not (0 <= datacenter_id <= MAX_DATACENTER_ID):
-            raise ValueError(
-                f"Datacenter ID must be between 0 and {MAX_DATACENTER_ID}"
-            )
+            raise ValueError(f"Datacenter ID must be between 0 and {MAX_DATACENTER_ID}")
 
         self.timestamp = timestamp
         self.worker_id = worker_id
@@ -56,9 +65,7 @@ class SnowflakeGenerator:
         if not (0 <= worker_id <= MAX_WORKER_ID):
             raise ValueError(f"Worker ID must be between 0 and {MAX_WORKER_ID}")
         if not (0 <= datacenter_id <= MAX_DATACENTER_ID):
-            raise ValueError(
-                f"Datacenter ID must be between 0 and {MAX_DATACENTER_ID}"
-            )
+            raise ValueError(f"Datacenter ID must be between 0 and {MAX_DATACENTER_ID}")
 
         self.worker_id = worker_id
         self.datacenter_id = datacenter_id
