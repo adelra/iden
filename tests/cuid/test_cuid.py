@@ -1,9 +1,9 @@
-
 """
 Tests for the CUID generator.
 """
 
 from iden.cuid import CuidGenerator, cuid
+
 
 def test_cuid_generator():
     """
@@ -12,7 +12,8 @@ def test_cuid_generator():
     generator = CuidGenerator()
     generated_cuid = generator.generate()
     assert isinstance(generated_cuid, str)
-    assert generated_cuid.startswith('c')
+    assert generated_cuid.startswith("c")
+
 
 def test_cuid_collision():
     """
@@ -21,6 +22,7 @@ def test_cuid_collision():
     generator = CuidGenerator()
     ids = [generator.generate() for _ in range(10000)]
     assert len(ids) == len(set(ids))
+
 
 def test_cuid_length():
     """
