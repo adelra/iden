@@ -105,6 +105,9 @@ class CuidGenerator:
         return "".join(parts)
 
 
+# Module-level singleton instance of CuidGenerator
+_cuid_generator = CuidGenerator()
+
 def cuid() -> str:
     """A convenience function to generate a CUID without creating a generator instance."""
-    return CuidGenerator().generate()
+    return _cuid_generator.generate()
