@@ -109,6 +109,7 @@ class CuidGenerator:
 _cuid_generator = None
 _cuid_generator_lock = threading.Lock()
 
+
 def cuid() -> str:
     """A convenience function to generate a CUID without creating a generator instance."""
     global _cuid_generator
