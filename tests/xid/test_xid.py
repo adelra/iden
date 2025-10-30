@@ -280,3 +280,112 @@ def test_xid_validation():
         Xid(
             timestamp=123, machine_id=b"abc", process_id=b"de", counter=16777216
         )  # 2^24
+
+
+def test_large_pid():
+    """
+    Tests that PIDs larger than 65535 are handled correctly.
+    """
+    import os
+    from unittest.mock import patch
+
+    from iden.xid.generator import _generate_process_id
+
+    with patch("os.getpid") as mock_getpid:
+        mock_getpid.return_value = 70000  # PID > 65535
+        process_id_bytes = _generate_process_id()
+        assert len(process_id_bytes) == 2
+        pid = int.from_bytes(process_id_bytes, "big")
+        assert pid == 70000 % 65536
+
+
+from hypothesis import given, strategies as st
+
+from iden.xid.generator import (
+    COUNTER_BYTES,
+    MACHINE_ID_BYTES,
+    PROCESS_ID_BYTES,
+    TIMESTAMP_BYTES,
+)
+
+# Hypothesis strategies for XID components
+timestamps = st.integers(min_value=0, max_value=(1 << (TIMESTAMP_BYTES * 8)) - 1)
+machine_ids = st.binary(min_size=MACHINE_ID_BYTES, max_size=MACHINE_ID_BYTES)
+process_ids = st.binary(min_size=PROCESS_ID_BYTES, max_size=PROCESS_ID_BYTES)
+counters = st.integers(min_value=0, max_value=(1 << (COUNTER_BYTES * 8)) - 1)
+
+
+@given(
+    timestamp=timestamps,
+    machine_id=machine_ids,
+    process_id=process_ids,
+    counter=counters,
+)
+def test_xid_roundtrip_string(timestamp, machine_id, process_id, counter):
+    """
+    Tests that Xid objects can be round-tripped through string representation.
+    """
+    original_xid = Xid(
+        timestamp=timestamp,
+        machine_id=machine_id,
+        process_id=process_id,
+        counter=counter,
+    )
+    xid_str = str(original_xid)
+    parsed_xid = Xid.from_string(xid_str)
+    assert original_xid == parsed_xid
+
+
+@given(
+    timestamp=timestamps,
+    machine_id=machine_ids,
+    process_id=process_ids,
+    counter=counters,
+)
+def test_xid_roundtrip_bytes(timestamp, machine_id, process_id, counter):
+    """
+    Tests that Xid objects can be round-tripped through byte representation.
+    """
+    original_xid = Xid(
+        timestamp=timestamp,
+        machine_id=machine_id,
+        process_id=process_id,
+        counter=counter,
+    )
+    xid_bytes = original_xid.to_bytes()
+    parsed_xid = Xid.from_bytes(xid_bytes)
+    assert original_xid == parsed_xid
+
+
+@given(
+    xid1_components=st.tuples(timestamps, machine_ids, process_ids, counters),
+    xid2_components=st.tuples(timestamps, machine_ids, process_ids, counters),
+)
+def test_xid_comparison(xid1_components, xid2_components):
+    """
+    Tests that XID comparison is consistent with byte representation.
+    """
+    xid1 = Xid(*xid1_components)
+    xid2 = Xid(*xid2_components)
+
+    xid1_bytes = xid1.to_bytes()
+    xid2_bytes = xid2.to_bytes()
+
+    assert (xid1 < xid2) == (xid1_bytes < xid2_bytes)
+    assert (xid1 == xid2) == (xid1_bytes == xid2_bytes)
+    assert (xid1 <= xid2) == (xid1_bytes <= xid2_bytes)
+
+
+def test_xid_counter_wrapping():
+    """
+    Tests that the counter wraps around correctly.
+    """
+    generator = XidGenerator()
+    counter_max = (1 << (COUNTER_BYTES * 8)) - 1
+    generator._counter = counter_max
+
+    xid1 = generator.generate()
+    assert xid1.counter == counter_max
+
+    xid2 = generator.generate()
+    assert xid2.counter == 0

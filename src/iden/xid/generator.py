@@ -32,7 +32,7 @@ def _generate_process_id() -> bytes:
     Returns:
         A 2-byte process identifier.
     """
-    pid = os.getpid()
+    pid = os.getpid() % (1 << (PROCESS_ID_BYTES * 8))
     return pid.to_bytes(PROCESS_ID_BYTES, "big")
 
 
