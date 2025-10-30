@@ -105,10 +105,15 @@ class CuidGenerator:
         return "".join(parts)
 
 
-# Module-level singleton instance of CuidGenerator
-_cuid_generator = CuidGenerator()
-
+# Module-level singleton instance of CuidGenerator (lazy, thread-safe initialization)
+_cuid_generator = None
+_cuid_generator_lock = threading.Lock()
 
 def cuid() -> str:
     """A convenience function to generate a CUID without creating a generator instance."""
+    global _cuid_generator
+    if _cuid_generator is None:
+        with _cuid_generator_lock:
+            if _cuid_generator is None:
+                _cuid_generator = CuidGenerator()
     return _cuid_generator.generate()
