@@ -4,7 +4,14 @@ import time
 
 import pytest
 
+from hypothesis import given, strategies as st
 from iden.xid.generator import Xid, XidGenerator
+from iden.xid.generator import (
+    COUNTER_BYTES,
+    MACHINE_ID_BYTES,
+    PROCESS_ID_BYTES,
+    TIMESTAMP_BYTES,
+)
 
 
 def test_xid_generator():
@@ -286,7 +293,6 @@ def test_large_pid():
     """
     Tests that PIDs larger than 65535 are handled correctly.
     """
-    import os
     from unittest.mock import patch
 
     from iden.xid.generator import _generate_process_id
@@ -298,15 +304,6 @@ def test_large_pid():
         pid = int.from_bytes(process_id_bytes, "big")
         assert pid == 70000 % 65536
 
-
-from hypothesis import given, strategies as st
-
-from iden.xid.generator import (
-    COUNTER_BYTES,
-    MACHINE_ID_BYTES,
-    PROCESS_ID_BYTES,
-    TIMESTAMP_BYTES,
-)
 
 # Hypothesis strategies for XID components
 timestamps = st.integers(min_value=0, max_value=(1 << (TIMESTAMP_BYTES * 8)) - 1)
