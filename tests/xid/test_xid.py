@@ -2,6 +2,8 @@ import datetime
 import threading
 import time
 
+import pytest
+
 from iden.xid.generator import Xid, XidGenerator
 
 
@@ -238,28 +240,19 @@ def test_xid_invalid_string_parsing():
     """
     Tests that invalid strings raise appropriate errors.
     """
-    try:
+    with pytest.raises(ValueError):
         Xid.from_string("invalid")
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
-    try:
+    with pytest.raises(ValueError):
         Xid.from_string("gg" * 12)  # Invalid hex
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
 
 def test_xid_invalid_bytes_parsing():
     """
     Tests that invalid bytes raise appropriate errors.
     """
-    try:
+    with pytest.raises(ValueError):
         Xid.from_bytes(b"short")
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
 
 def test_xid_validation():
@@ -271,31 +264,19 @@ def test_xid_validation():
     assert xid.timestamp == 1234567890
 
     # Invalid timestamp
-    try:
+    with pytest.raises(ValueError):
         Xid(timestamp=-1, machine_id=b"abc", process_id=b"de", counter=12345)
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
     # Invalid machine_id length
-    try:
+    with pytest.raises(ValueError):
         Xid(timestamp=123, machine_id=b"ab", process_id=b"de", counter=12345)
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
     # Invalid process_id length
-    try:
+    with pytest.raises(ValueError):
         Xid(timestamp=123, machine_id=b"abc", process_id=b"d", counter=12345)
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass
 
     # Invalid counter (too large)
-    try:
+    with pytest.raises(ValueError):
         Xid(
             timestamp=123, machine_id=b"abc", process_id=b"de", counter=16777216
         )  # 2^24
-        assert False, "Should have raised ValueError"
-    except ValueError:
-        pass

@@ -21,7 +21,7 @@ def _generate_machine_id() -> bytes:
         A 3-byte machine identifier.
     """
     hostname = os.uname().nodename
-    hash_bytes = hashlib.md5(hostname.encode()).digest()
+    hash_bytes = hashlib.sha256(hostname.encode()).digest()
     return hash_bytes[:MACHINE_ID_BYTES]
 
 
@@ -229,7 +229,7 @@ class XidGenerator:
         with self._lock:
             timestamp = int(time.time())
             counter = self._counter
-            self._counter = (self._counter + 1) & self._counter_max
+            self._counter = (self._counter + 1) % (self._counter_max + 1)
 
         return Xid(
             timestamp=timestamp,
