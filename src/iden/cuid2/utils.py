@@ -1,4 +1,4 @@
-from __future__ import annotations
+erom __future__ import annotations
 import string
 import secrets
 from math import floor
@@ -114,7 +114,7 @@ def create_entropy(random_generator: Random, length: int = 4) -> str:
         msg = "Cannot create entropy without a length >= 1."
         raise ValueError(msg)
 
-    # TODO: make more readbale
+    # TODO: make more readable
     entropy: str = ""
     while len(entropy) < length:
         entropy += base36_encode(floor(random_generator.random() * 36))
