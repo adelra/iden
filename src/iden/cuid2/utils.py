@@ -1,4 +1,4 @@
-erom __future__ import annotations
+from __future__ import annotations
 import string
 import secrets
 from math import floor
