@@ -53,7 +53,7 @@ _process_fingerprint: Optional[str] = None
 
 
 def create_fingerprint(
-    random_generator: Random, fingerprint_data: Optional[str] = ""
+    random_generator: Random, fingerprint_data: Optional[str] = None
 ) -> str:
     """Creates a fingerprint. By default, it returns a consistent, randomly generated
     fingerprint for the current process.
