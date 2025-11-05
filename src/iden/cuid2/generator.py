@@ -40,8 +40,8 @@ class Cuid:  # pylint: disable=too-few-public-methods
             Used as the base random generator. The default value is `secrets.SystemRandom`, which is a cryptographically secure random number generator provided by the Python standard library.
         counter : Callable[[int], Callable[[], int]], default=utils.create_counter
             The `counter` parameter is a callable that creates a counter returning an incremented value each time it is called. The `create_counter` function from the `utils` module is used by default.
-        length : int, default=DEFAULT_LENGTH (4)
-            The length parameter is an integer that determines the maximum length of the generated string. It has a default value of DEFAULT_LENGTH (4). A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
+        length : int, default=DEFAULT_LENGTH (24)
+            The length parameter is an integer that determines the maximum length of the generated string. It has a default value of DEFAULT_LENGTH (24). A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
         fingerprint : "FingerprintCallable", default=utils.create_fingerprint
             The "fingerprint" parameter is a callable function that generates a unique identifier.
 
