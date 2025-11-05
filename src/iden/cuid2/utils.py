@@ -1,6 +1,4 @@
 from __future__ import annotations
-import os
-import socket
 import string
 import secrets
 from math import floor
