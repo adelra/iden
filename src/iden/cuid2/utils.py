@@ -121,14 +121,13 @@ def create_entropy(random_generator: Random, length: int = 4) -> str:
     return entropy
 
 
-def create_hash(data: str = "") -> str:
+def create_hash(data: str) -> str:
     """Creates a hash value for a given string using the SHA-512 algorithm (prefers SHA3) and returns it in base36 encoding format after dropping the first character.
 
     Parameters
     ----------
-    data : str, default=""
-        Data to be hashed. It is an optional parameter with a default value of an empty string.
-        If no value is provided for `data`, an empty string will be hashed.
+    data : str
+        Data to be hashed. This parameter is required.
 
     Returns
     -------
