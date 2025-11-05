@@ -41,7 +41,7 @@ class Cuid:  # pylint: disable=too-few-public-methods
         counter : Callable[[int], Callable[[], int]], default=utils.create_counter
             The `counter` parameter is a callable that creates a counter returning an incremented value each time it is called. The `create_counter` function from the `utils` module is used by default.
         length : int, default=DEFAULT_LENGTH (4)
-            The length parameter is an integer that determines the maximum length of the generated string. It has a default value of DEFAULT_LENGTH (4). A length value greater than `MAXIMUM_LENGTH` (98 characters) will raise a ValueError.
+            The length parameter is an integer that determines the maximum length of the generated string. It has a default value of DEFAULT_LENGTH (4). A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
         fingerprint : "FingerprintCallable", default=utils.create_fingerprint
             The "fingerprint" parameter is a callable function that generates a unique identifier.
 
@@ -63,7 +63,7 @@ class Cuid:  # pylint: disable=too-few-public-methods
         Parameters
         ----------
         length : int, optional
-            The length parameter is an optional integer value that specifies the length of the generated string. If it is not provided, the default length value provided during class initialization is used. A length value greater than `MAXIMUM_LENGTH` (98 characters) will raise a ValueError.
+            The length parameter is an optional integer value that specifies the length of the generated string. If it is not provided, the default length value provided during class initialization is used. A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
 
         Returns
         -------
@@ -73,7 +73,7 @@ class Cuid:  # pylint: disable=too-few-public-methods
         Raises
         ------
         ValueError
-            If the length parameter is greater than `MAXIMUM_LENGTH` (98 characters).
+            If the length parameter is greater than `MAXIMUM_LENGTH` (32 characters).
         """
         length = length or self._length
         if not (2 <= length <= MAXIMUM_LENGTH):
