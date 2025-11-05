@@ -28,18 +28,14 @@ def test_cuid2_length():
 def test_cuid2_invalid_length():
     with pytest.raises(
         ValueError,
-        match=re.escape(
-            f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."
-        ),
+        match=re.escape(f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."),
     ):
         Cuid(length=MAXIMUM_LENGTH + 1)
 
     cuid_instance = Cuid()
     with pytest.raises(
         ValueError,
-        match=re.escape(
-            f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."
-        ),
+        match=re.escape(f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."),
     ):
         cuid_instance.generate(length=MAXIMUM_LENGTH + 1)
 

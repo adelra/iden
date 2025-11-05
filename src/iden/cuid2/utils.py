@@ -79,7 +79,9 @@ def create_fingerprint(
 
     if not fingerprint_data:
         if _process_fingerprint is None:
-            _process_fingerprint = create_hash(secrets.token_hex(BIG_LENGTH))[:BIG_LENGTH]
+            _process_fingerprint = create_hash(secrets.token_hex(BIG_LENGTH))[
+                :BIG_LENGTH
+            ]
         return _process_fingerprint
 
     # The following logic is kept for backward compatibility but is not recommended.
