@@ -1,5 +1,5 @@
 import pytest
-from iden.snowflake.generator import (
+from anyid.snowflake.generator import (
     SnowflakeGenerator,
     Snowflake,
     MAX_WORKER_ID,

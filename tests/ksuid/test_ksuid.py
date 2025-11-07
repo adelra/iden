@@ -1,6 +1,6 @@
 import secrets
 
-from iden.ksuid.generator import BASE62_ALPHABET, Ksuid, KsuidGenerator
+from anyid.ksuid.generator import BASE62_ALPHABET, Ksuid, KsuidGenerator
 
 
 def test_ksuid_generator():

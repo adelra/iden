@@ -2,7 +2,7 @@
 Tests for the CUID generator.
 """
 
-from iden.cuid import CuidGenerator, cuid
+from anyid.cuid import CuidGenerator, cuid
 
 
 def test_cuid_generator():

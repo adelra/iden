@@ -7,13 +7,31 @@ import threading
 
 class CuidGenerator:
     """
-    A generator for creating CUIDs (Collision-Resistant Unique Identifiers).
+    A generator for creating CUIDs.
 
-    This implementation aims to faithfully replicate the original CUID specification from the JavaScript library.
+    This class implements the original CUID specification for generating
+    collision-resistant unique identifiers.
+
+    Attributes
+    ----------
+    base : int
+        The base for encoding (36).
+    block_size : int
+        The size of each block in the CUID (4).
+    discrete_values : int
+        The number of discrete values in a block.
+    counter : int
+        The counter for generating unique IDs.
+    lock : threading.Lock
+        A lock for thread-safe counter increments.
+    fingerprint : str
+        A fingerprint of the host machine.
     """
 
     def __init__(self):
-        """Initialize the counter, lock, and fingerprint for the generator."""
+        """
+        Initializes the CUID generator.
+        """
         self.base = 36
         self.block_size = 4
         self.discrete_values = self.base**self.block_size
@@ -23,8 +41,19 @@ class CuidGenerator:
 
     def _pad(self, value: str, size: int) -> str:
         """
-        Pad the string to the given size with leading zeros.
-        If the value is longer than size, take the last 'size' characters.
+        Pads or truncates a string to a specific size.
+
+        Parameters
+        ----------
+        value : str
+            The string to pad or truncate.
+        size : int
+            The desired size of the string.
+
+        Returns
+        -------
+        str
+            The padded or truncated string.
         """
         if len(value) > size:
             return value[-size:]
@@ -32,10 +61,17 @@ class CuidGenerator:
 
     def _to_base36(self, n: int) -> str:
         """
-        Convert a number to a base36 string.
+        Converts an integer to a base36 string.
 
-        Args:
-            n: The number to convert.
+        Parameters
+        ----------
+        n : int
+            The integer to convert.
+
+        Returns
+        -------
+        str
+            The base36-encoded string.
         """
         if n == 0:
             return "0"
@@ -47,7 +83,16 @@ class CuidGenerator:
         return result
 
     def _get_fingerprint(self) -> str:
-        """Generate a fingerprint based on process ID and hostname, similar to Node.js implementation."""
+        """
+        Generates a machine fingerprint.
+
+        The fingerprint is based on the process ID and hostname.
+
+        Returns
+        -------
+        str
+            The machine fingerprint.
+        """
         pid = os.getpid()
         hostname = socket.gethostname()
 
@@ -67,9 +112,11 @@ class CuidGenerator:
 
     def generate(self) -> str:
         """
-        Generates a new CUID.
+        Generates a new CUID string.
 
-        Returns:
+        Returns
+        -------
+        str
             A new, unique CUID string.
         """
         # Increment the counter in a thread-safe way and wrap around if necessary
@@ -111,7 +158,16 @@ _cuid_generator_lock = threading.Lock()
 
 
 def cuid() -> str:
-    """A convenience function to generate a CUID without creating a generator instance."""
+    """
+    Generates a new CUID.
+
+    This function uses a module-level singleton instance of `CuidGenerator`.
+
+    Returns
+    -------
+    str
+        A new, unique CUID string.
+    """
     global _cuid_generator
     if _cuid_generator is None:
         with _cuid_generator_lock:
