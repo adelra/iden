@@ -1,5 +1,5 @@
 [project]
-name = "iden"
+name = "anyid"
 version = "0.1.0"
 description = "A unified Python ID generator library."
 authors = [{ name = "Adel Rahimi", email = "rahimi.adel@gmail.com" }]
@@ -13,8 +13,8 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/adelra/iden"
-"Bug Tracker" = "https://github.com/adelra/iden/issues"
+"Homepage" = "https://github.com/adelra/anyid"
+"Bug Tracker" = "https://github.com/adelra/anyid/issues"
 
 [tool.black]
 line-length = 88

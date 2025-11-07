@@ -1,6 +1,6 @@
 import uuid
 
-from iden.uuid import UuidGenerator
+from anyid.uuid import UuidGenerator
 
 
 def test_uuid_generator():

@@ -32,19 +32,28 @@ class Cuid:  # pylint: disable=too-few-public-methods
         length: int = _default_length,
         fingerprint: FingerprintCallable = utils.create_fingerprint,
     ) -> None:
-        """Initialization function for the Cuid class that generates a universally unique, base36 encoded string.
+        """
+        Initializes the Cuid class for generating CUIDs.
 
         Parameters
         ----------
-        random_generator : Callable[[], "Random"], default=SystemRandom
-            Used as the base random generator. The default value is `secrets.SystemRandom`, which is a cryptographically secure random number generator provided by the Python standard library.
-        counter : Callable[[int], Callable[[], int]], default=utils.create_counter
-            The `counter` parameter is a callable that creates a counter returning an incremented value each time it is called. The `create_counter` function from the `utils` module is used by default.
-        length : int, default=DEFAULT_LENGTH (24)
-            The length parameter is an integer that determines the maximum length of the generated string. It has a default value of DEFAULT_LENGTH (24). A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
-        fingerprint : "FingerprintCallable", default=utils.create_fingerprint
-            The "fingerprint" parameter is a callable function that generates a unique identifier.
+        random_generator : Callable[[], "Random"], optional
+            A function that returns a random number generator.
+            Defaults to `secrets.SystemRandom`.
+        counter : Callable[[int], Callable[[], int]], optional
+            A function that creates a counter.
+            Defaults to `utils.create_counter`.
+        length : int, optional
+            The desired length of the CUID. Must be between 2 and `MAXIMUM_LENGTH`.
+            Defaults to `DEFAULT_LENGTH`.
+        fingerprint : "FingerprintCallable", optional
+            A function that generates a machine fingerprint.
+            Defaults to `utils.create_fingerprint`.
 
+        Raises
+        ------
+        ValueError
+            If the length is not between 2 and `MAXIMUM_LENGTH`.
         """
         if not (2 <= length <= MAXIMUM_LENGTH):
             msg = f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."
@@ -58,22 +67,24 @@ class Cuid:  # pylint: disable=too-few-public-methods
         self._fingerprint: str = fingerprint(random_generator=self._random)
 
     def generate(self: Cuid, length: Optional[int] = None) -> str:
-        """Generates a universally unique, base36 encoded string with a specified length.
+        """
+        Generates a CUID string.
 
         Parameters
         ----------
         length : int, optional
-            The length parameter is an optional integer value that specifies the length of the generated string. If it is not provided, the default length value provided during class initialization is used. A length value greater than `MAXIMUM_LENGTH` (32 characters) will raise a ValueError.
+            The desired length of the CUID. If not provided, the length
+            specified during initialization is used.
 
         Returns
         -------
         str
-            Starts with a single, random letter, followed by a hash. The hash is generated using a combination of the current time in base 36, a random salt, a base 36 counter, and a system fingerprint. The length of the returned string is limited by `length`.
+            The generated CUID string.
 
         Raises
         ------
         ValueError
-            If the length parameter is greater than `MAXIMUM_LENGTH` (32 characters).
+            If the length is not between 2 and `MAXIMUM_LENGTH`.
         """
         length = length or self._length
         if not (2 <= length <= MAXIMUM_LENGTH):
@@ -90,12 +101,16 @@ class Cuid:  # pylint: disable=too-few-public-methods
 
 
 def cuid_wrapper() -> Callable[[], str]:
-    """Wrap a single Cuid class instance and return a callable that generates a CUID string.
+    """
+    Creates a default CUID generator function.
+
+    This function wraps a single `Cuid` instance with default parameters,
+    providing a simple, zero-argument function for generating CUIDs.
 
     Returns
     -------
     Callable[[], str]
-        A callable that generates a CUID string.
+        A function that, when called, returns a new CUID string.
     """
     cuid_generator: Cuid = Cuid()
 

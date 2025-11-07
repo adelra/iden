@@ -6,7 +6,7 @@ import string
 
 from hypothesis import given, strategies as st
 
-from iden.nanoid import NanoidGenerator
+from anyid.nanoid import NanoidGenerator
 
 
 def test_nanoid_generator():

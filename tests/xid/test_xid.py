@@ -5,12 +5,13 @@ import time
 import pytest
 
 from hypothesis import given, strategies as st
-from iden.xid.generator import Xid, XidGenerator
-from iden.xid.generator import (
+from anyid.xid.generator import (
     COUNTER_BYTES,
     MACHINE_ID_BYTES,
     PROCESS_ID_BYTES,
     TIMESTAMP_BYTES,
+    Xid,
+    XidGenerator,
 )
 
 
@@ -295,7 +296,7 @@ def test_large_pid():
     """
     from unittest.mock import patch
 
-    from iden.xid.generator import _generate_process_id
+    from anyid.xid.generator import _generate_process_id
 
     with patch("os.getpid") as mock_getpid:
         mock_getpid.return_value = 70000  # PID > 65535
