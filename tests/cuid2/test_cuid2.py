@@ -1,4 +1,4 @@
-from iden.cuid2 import Cuid, cuid_wrapper, DEFAULT_LENGTH, MAXIMUM_LENGTH
+from anyid.cuid2 import Cuid, cuid_wrapper, DEFAULT_LENGTH, MAXIMUM_LENGTH
 import pytest
 import re
 

@@ -25,20 +25,18 @@ if TYPE_CHECKING:
 
 
 def create_counter(count: int) -> Callable[[], int]:
-    """Creates a counter that returns an incremented value each time it is called.
+    """
+    Creates a counter function.
 
     Parameters
     ----------
     count : int
-        Initial count value for the counter.
+        The initial value of the counter.
 
     Returns
     -------
     Callable[[], int]
-        Closure function `counter` that takes no arguments and returns an integer.
-        The closure function keeps track of a count variable that is initialized with the value
-        passed as an argument to `create_counter`. Each time the closure function is called,
-        it increments the count variable and returns its new value.
+        A function that returns an incremented value each time it is called.
     """
 
     def counter() -> int:
@@ -55,23 +53,25 @@ _process_fingerprint: Optional[str] = None
 def create_fingerprint(
     random_generator: Random, fingerprint_data: Optional[str] = None
 ) -> str:
-    """Creates a fingerprint. By default, it returns a consistent, randomly generated
-    fingerprint for the current process.
+    """
+    Creates a machine fingerprint.
 
-    If fingerprint_data is provided, it will be used to create a custom fingerprint.
-    This is not recommended as it can lead to fingerprint collisions if not used carefully.
+    By default, this function returns a consistent, randomly generated
+    fingerprint for the current process.
 
     Parameters
     ----------
     random_generator : "Random"
-        Used as the base generator to generate some entropy if fingerprint_data is provided.
+        A random number generator. Used only if `fingerprint_data` is provided.
     fingerprint_data : str, optional
-        An optional parameter that contains data to be included in the fingerprint.
+        Custom data to be used for generating the fingerprint.
+        If not provided, a random process-level fingerprint is used.
+        Using this is not recommended as it can lead to collisions.
 
     Returns
     -------
     str
-        The fingerprint.
+        The generated fingerprint.
     """
     global _process_fingerprint
 
@@ -90,25 +90,25 @@ def create_fingerprint(
 
 
 def create_entropy(random_generator: Random, length: int = 4) -> str:
-    """Creates a random string of specified length using a base36 encoding.
+    """
+    Creates a random string for entropy.
 
     Parameters
     ----------
     random_generator : "Random"
-        Used as the base generator to generate a random string.
-    length : int, default=4
-        The length parameter is an integer that specifies the length of the entropy string to be generated.
-        The default value is 4, but it can be set to any positive integer value.
+        A random number generator.
+    length : int, optional
+        The desired length of the entropy string. Defaults to 4.
 
     Returns
     -------
     str
-        Random characters encoded as a base36 string. The length of the string is determined by the `length` parameter passed to the function.
+        A random base36-encoded string of the specified length.
 
     Raises
     ------
     ValueError
-        If the input integer is less than 1.
+        If `length` is less than 1.
     """
     if length < 1:
         msg = "Cannot create entropy without a length >= 1."
@@ -122,17 +122,21 @@ def create_entropy(random_generator: Random, length: int = 4) -> str:
 
 
 def create_hash(data: str) -> str:
-    """Creates a hash value for a given string using the SHA-512 algorithm (prefers SHA3) and returns it in base36 encoding format after dropping the first character.
+    """
+    Creates a hash of a string.
+
+    Uses the SHA-512 algorithm (preferring SHA3 if available) and returns
+    the result in a base36 encoding.
 
     Parameters
     ----------
     data : str
-        Data to be hashed. This parameter is required.
+        The string to be hashed.
 
     Returns
     -------
     str
-        Base36 encoding of the SHA-512 hash of the input string `data`, with the first character dropped.
+        The base36-encoded hash of the input string.
     """
     hashed_value: _Hash = sha512(data.encode())
     hashed_int: int = int.from_bytes(hashed_value.digest(), byteorder="big")
@@ -142,41 +146,41 @@ def create_hash(data: str) -> str:
 
 
 def create_letter(random_generator: Random) -> str:
-    """Generates a random lowercase letter using a given random number generator.
+    """
+    Generates a random lowercase letter.
 
     Parameters
     ----------
     random_generator : "Random"
-        Used as the base generator to generate a random letter.
+        A random number generator.
 
     Returns
     -------
     str
-        a randomly generated lowercase letter from the English alphabet.
+        A single random lowercase letter.
     """
     alphabet: str = string.ascii_lowercase
     return alphabet[floor(random_generator.random() * len(alphabet))]
 
 
 def base36_encode(number: int) -> str:
-    """Encodes a positive integer into a base36 string.
+    """
+    Encodes a positive integer into a base36 string.
 
     Parameters
     ----------
     number : int
-        Integer to be encoded as a base36 string.
+        The integer to be encoded.
 
     Returns
     -------
     str
-        A string that represents the base36 encoded input integer.
-        If the input integer is negative, a ValueError is raised.
-        If the input integer is 0, the function returns the string "0".
+        The base36-encoded string representation of the integer.
 
     Raises
     ------
     ValueError
-        If the input integer is negative.
+        If the input number is negative.
     """
     if number < 0:
         msg = "Cannot encode negative integers."
