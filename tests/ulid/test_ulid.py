@@ -1,5 +1,6 @@
 import time
-from iden.ulid import ulid, generator
+from anyid.ulid import ulid, generator
+from anyid.ulid.generator import CROCKFORD_ALPHABET
 from hypothesis import given, strategies as st
 
 
@@ -17,7 +18,7 @@ def test_ulid_alphabet():
     for _ in range(100):
         generated_ulid = ulid()
         for char in generated_ulid:
-            assert char in generator.CROCKFORD_ALPHABET
+            assert char in CROCKFORD_ALPHABET
 
 
 def test_ulid_sortable():
@@ -33,7 +34,7 @@ def test_ulid_monotonicity():
     """
     Tests that ULIDs generated in the same millisecond are monotonic.
     """
-    gen = generator.ULIDGenerator()
+    gen = generator()
 
     # Mock time.time() to control the timestamp
     original_time = time.time
@@ -69,7 +70,7 @@ def test_encode_decode_roundtrip(data):
     """
     Tests that encoding and then decoding a 16-byte string results in the original string.
     """
-    gen = generator.ULIDGenerator()
+    gen = generator()
     encoded = gen.encode_base32(data)
     decoded = gen.decode_base32(encoded)
     assert data == decoded
