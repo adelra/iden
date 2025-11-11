@@ -24,6 +24,11 @@ def test_ulid_alphabet():
 def test_ulid_sortable():
     """
     Tests that ULIDs generated in succession are lexicographically sortable.
+
+    This test acts as a general check for sortability and is likely to
+    generate ULIDs both within the same millisecond and across different
+    milliseconds. The more specific same-millisecond case is handled by
+    test_ulid_monotonicity.
     """
     ulids = [ulid() for _ in range(100)]
     sorted_ulids = sorted(ulids)
