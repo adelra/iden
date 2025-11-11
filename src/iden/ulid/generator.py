@@ -1,6 +1,5 @@
 import time
 import secrets
-import threading
 
 CROCKFORD_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 
@@ -23,7 +22,6 @@ class ULIDGenerator:
         """
         self._last_ms = 0
         self._last_random_bytes = b""
-        self._lock = threading.Lock()
 
     def generate(self) -> str:
         """
@@ -38,28 +36,18 @@ class ULIDGenerator:
         str
             A 26-character Crockford's Base32 encoded ULID string.
         """
-        with self._lock:
-            ms_time = int(time.time() * 1000)
+        ms_time = int(time.time() * 1000)
 
-            if ms_time == self._last_ms:
-                last_random_int = int.from_bytes(self._last_random_bytes, "big")
+        if ms_time == self._last_ms:
+            # Increment the random part
+            last_random_int = int.from_bytes(self._last_random_bytes, "big")
+            new_random_int = last_random_int + 1
+            random_bytes = new_random_int.to_bytes(10, "big")
+        else:
+            random_bytes = secrets.token_bytes(10)
 
-                if last_random_int >= (1 << 80) - 1:
-                    # Random part is at its max, wait for the next millisecond
-                    while int(time.time() * 1000) == ms_time:
-                        time.sleep(0.0001)  # Sleep for 0.1ms
-
-                    ms_time = int(time.time() * 1000)
-                    random_bytes = secrets.token_bytes(10)
-                else:
-                    # Increment the random part
-                    new_random_int = last_random_int + 1
-                    random_bytes = new_random_int.to_bytes(10, "big")
-            else:
-                random_bytes = secrets.token_bytes(10)
-
-            self._last_ms = ms_time
-            self._last_random_bytes = random_bytes
+        self._last_ms = ms_time
+        self._last_random_bytes = random_bytes
 
         timestamp_bytes = ms_time.to_bytes(6, "big")
         ulid_bytes = timestamp_bytes + random_bytes
