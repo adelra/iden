@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.1](https://github.com/adelra/anyid/compare/v0.2.0...v0.2.1) (2025-11-11)
+
+
+### Bug Fixes
+
+* Merge pull request [#19](https://github.com/adelra/anyid/issues/19) from adelra/fix/remove_ulid ([4d88680](https://github.com/adelra/anyid/commit/4d886806110209dfeb3a09b6d73ec391e3cd26c1))
+* remove remaining ulid ([4d88680](https://github.com/adelra/anyid/commit/4d886806110209dfeb3a09b6d73ec391e3cd26c1))
+* remove remaining ulid ([81f322d](https://github.com/adelra/anyid/commit/81f322da5a2e514867d16e0df2bd695e7a0e36e3))
+
 ## [0.2.0](https://github.com/adelra/anyid/compare/v0.1.0...v0.2.0) (2025-11-11)
 
 
