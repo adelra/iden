@@ -1,4 +1,8 @@
-# `anyid`
+<div align="center">
+  <img src="img/logo.jpg" alt="anyid logo" width="200"/>
+</div>
+
+# anyID
 
 A unified Python library for generating a variety of unique identifiers.
 
