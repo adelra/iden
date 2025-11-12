@@ -1,4 +1,8 @@
-# `anyid`
+<div align="center">
+  <img src="img/logo.jpg" alt="anyID logo" width="200"/>
+</div>
+
+# anyID
 
 A unified Python library for generating a variety of unique identifiers.
 
@@ -47,3 +51,8 @@ print(f"UUID: {my_uuid}")
 ## Contributing
 
 Contributions are welcome! This project uses `pytest` for testing and `ruff` and `black` for linting and formatting. Please feel free to open an issue or submit a pull request.
+
+## Credits
+- Logo created by Grok
+- Thanks Copilot for reviewing my code
+- Thanks Gemini CLI for helping me with bug fixes and tests
