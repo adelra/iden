@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="img/logo.jpg" alt="anyid logo" width="200"/>
+  <img src="img/logo.jpg" alt="anyID logo" width="200"/>
 </div>
 
 # anyID
