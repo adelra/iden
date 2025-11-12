@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/adelra/anyid/compare/v0.2.1...v0.2.2) (2025-11-12)
+
+
+### Bug Fixes
+
+* Merge pull request [#21](https://github.com/adelra/anyid/issues/21) from adelra/feat/minor_edits ([5285592](https://github.com/adelra/anyid/commit/52855925b03a69ebe643d7a80610db6975561c60))
+
 ## [0.2.1](https://github.com/adelra/anyid/compare/v0.2.0...v0.2.1) (2025-11-11)
 
 
