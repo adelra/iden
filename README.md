@@ -51,3 +51,8 @@ print(f"UUID: {my_uuid}")
 ## Contributing
 
 Contributions are welcome! This project uses `pytest` for testing and `ruff` and `black` for linting and formatting. Please feel free to open an issue or submit a pull request.
+
+## Credits
+- Logo created by Grok
+- Thanks Copilot for reviewing my code
+- Thanks Gemini CLI for helping me with bug fixes and tests
