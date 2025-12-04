@@ -116,7 +116,9 @@ def setup_snowflake_id_generator(worker_id: int, datacenter_id: int) -> None:
         The ID of the datacenter.
     """
     global _snowflake_generator
-    _snowflake_generator = SnowflakeIdGenerator(worker_id=worker_id, datacenter_id=datacenter_id)
+    _snowflake_generator = SnowflakeIdGenerator(
+        worker_id=worker_id, datacenter_id=datacenter_id
+    )
 
 
 def snowflake() -> Snowflake:
@@ -143,4 +145,3 @@ def snowflake() -> Snowflake:
             "Please call setup_snowflake_id_generator() first."
         )
     return _snowflake_generator.generate()
-

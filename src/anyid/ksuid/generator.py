@@ -135,4 +135,3 @@ def ksuid() -> Ksuid:
         A new, unique KSUID object.
     """
     return _ksuid_generator.generate()
-

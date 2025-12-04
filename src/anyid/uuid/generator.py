@@ -47,4 +47,3 @@ def uuid() -> _uuid.UUID:
         A new, unique UUID object.
     """
     return _uuid_generator.generate()
-

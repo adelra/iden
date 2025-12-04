@@ -63,4 +63,3 @@ def nanoid(
         A new, unique NanoID string.
     """
     return _nanoid_generator.generate(size=size, alphabet=alphabet)
-

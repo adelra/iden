@@ -254,4 +254,3 @@ def xid() -> Xid:
         A new, unique XID object.
     """
     return _xid_generator.generate()
-
