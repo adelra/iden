@@ -1,5 +1,6 @@
 import time
 import datetime
+from typing import Optional
 
 # Twitter Snowflake's epoch is 2010-11-04T01:42:54.657Z
 SNOWFLAKE_EPOCH_DATETIME = datetime.datetime(
@@ -98,7 +99,7 @@ class SnowflakeIdGenerator:
         )
 
 
-_snowflake_generator: SnowflakeIdGenerator | None = None
+_snowflake_generator: Optional[SnowflakeIdGenerator] = None
 
 
 def setup_snowflake_id_generator(worker_id: int, datacenter_id: int) -> None:
