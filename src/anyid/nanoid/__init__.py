@@ -1,3 +1,3 @@
-from .generator import NanoidGenerator
+from .generator import NanoidGenerator, nanoid
 
-__all__ = ["NanoidGenerator"]
+__all__ = ["NanoidGenerator", "nanoid"]

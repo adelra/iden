@@ -1,3 +1,3 @@
-from .generator import KsuidGenerator
+from .generator import KsuidGenerator, ksuid
 
-__all__ = ["KsuidGenerator"]
+__all__ = ["KsuidGenerator", "ksuid"]

@@ -1,3 +1,3 @@
-from .generator import SnowflakeGenerator
+from .generator import SnowflakeIdGenerator, setup_snowflake_id_generator, snowflake
 
-__all__ = ["SnowflakeGenerator"]
+__all__ = ["snowflake", "setup_snowflake_id_generator", "SnowflakeIdGenerator"]

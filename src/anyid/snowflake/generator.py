@@ -58,7 +58,7 @@ class Snowflake:
         return str(snowflake_id)
 
 
-class SnowflakeGenerator:
+class SnowflakeIdGenerator:
     """A generator for creating Snowflake IDs."""
 
     def __init__(self, worker_id: int, datacenter_id: int):
@@ -96,3 +96,51 @@ class SnowflakeGenerator:
             datacenter_id=self.datacenter_id,
             sequence=self.sequence,
         )
+
+
+_snowflake_generator: SnowflakeIdGenerator | None = None
+
+
+def setup_snowflake_id_generator(worker_id: int, datacenter_id: int) -> None:
+    """
+    Initializes the module-level singleton of SnowflakeIdGenerator.
+
+    This function should be called once at the beginning of your application
+    to configure the worker and datacenter IDs.
+
+    Parameters
+    ----------
+    worker_id : int
+        The ID of the worker.
+    datacenter_id : int
+        The ID of the datacenter.
+    """
+    global _snowflake_generator
+    _snowflake_generator = SnowflakeIdGenerator(worker_id=worker_id, datacenter_id=datacenter_id)
+
+
+def snowflake() -> Snowflake:
+    """
+    Generates a new Snowflake ID.
+
+    This function uses a module-level singleton instance of `SnowflakeIdGenerator`.
+    You must call `setup_snowflake_id_generator(worker_id, datacenter_id)` before
+    using this function.
+
+    Returns
+    -------
+    Snowflake
+        A new, unique Snowflake object.
+
+    Raises
+    ------
+    RuntimeError
+        If the generator has not been initialized via `setup_snowflake_id_generator`.
+    """
+    if _snowflake_generator is None:
+        raise RuntimeError(
+            "Snowflake generator is not initialized. "
+            "Please call setup_snowflake_id_generator() first."
+        )
+    return _snowflake_generator.generate()
+

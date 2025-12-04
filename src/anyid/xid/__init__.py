@@ -1,3 +1,3 @@
-from .generator import Xid, XidGenerator
+from .generator import Xid, XidGenerator, xid
 
-__all__ = ["Xid", "XidGenerator"]
+__all__ = ["Xid", "XidGenerator", "xid"]

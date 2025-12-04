@@ -237,3 +237,21 @@ class XidGenerator:
             process_id=self._process_id,
             counter=counter,
         )
+
+
+_xid_generator = XidGenerator()
+
+
+def xid() -> Xid:
+    """
+    Generates a new XID.
+
+    This function uses a module-level singleton instance of `XidGenerator`.
+
+    Returns
+    -------
+    Xid
+        A new, unique XID object.
+    """
+    return _xid_generator.generate()
+

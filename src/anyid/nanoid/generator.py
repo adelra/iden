@@ -40,3 +40,27 @@ class NanoidGenerator:
             True
         """
         return "".join(secrets.choice(alphabet) for _ in range(size))
+
+
+_nanoid_generator = NanoidGenerator()
+
+
+def nanoid(
+    size: int = 21,
+    alphabet: str = "_~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+) -> str:
+    """
+    Generates a new NanoID with a custom size and alphabet.
+
+    This function uses a module-level singleton instance of `NanoidGenerator`.
+
+    Args:
+        size: The desired length of the ID. Defaults to 21.
+        alphabet: The set of characters to use for generating the ID.
+                  Defaults to a URL-friendly set.
+
+    Returns:
+        A new, unique NanoID string.
+    """
+    return _nanoid_generator.generate(size=size, alphabet=alphabet)
+

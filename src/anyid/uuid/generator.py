@@ -1,4 +1,4 @@
-import uuid
+import uuid as _uuid
 
 
 class UuidGenerator:
@@ -11,11 +11,11 @@ class UuidGenerator:
     Usage:
         >>> generator = UuidGenerator()
         >>> new_uuid = generator.generate()
-        >>> isinstance(new_uuid, uuid.UUID)
+        >>> isinstance(new_uuid, _uuid.UUID)
         True
     """
 
-    def generate(self) -> uuid.UUID:
+    def generate(self) -> _uuid.UUID:
         """
         Generates a new, random Version 4 UUID.
 
@@ -29,4 +29,22 @@ class UuidGenerator:
             >>> new_uuid.version
             4
         """
-        return uuid.uuid4()
+        return _uuid.uuid4()
+
+
+_uuid_generator = UuidGenerator()
+
+
+def uuid() -> _uuid.UUID:
+    """
+    Generates a new, random Version 4 UUID.
+
+    This function uses a module-level singleton instance of `UuidGenerator`.
+
+    Returns
+    -------
+    _uuid.UUID
+        A new, unique UUID object.
+    """
+    return _uuid_generator.generate()
+
