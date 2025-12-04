@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import time
-import threading
 from math import floor
 from secrets import SystemRandom
 from typing import TYPE_CHECKING, Callable, Final, Optional, Protocol
