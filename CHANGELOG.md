@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/adelra/anyid/compare/v0.2.2...v0.2.3) (2025-12-04)
+
+
+### Bug Fixes
+
+* fixes in the apis and some more ([#29](https://github.com/adelra/anyid/issues/29)) ([af1f3aa](https://github.com/adelra/anyid/commit/af1f3aabe4f4d625efb2e426047ad14b0d54f9c8))
+
 ## [0.2.2](https://github.com/adelra/anyid/compare/v0.2.1...v0.2.2) (2025-11-12)
 
 
