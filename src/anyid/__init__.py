@@ -4,7 +4,7 @@ from .ksuid import ksuid
 from .nanoid import nanoid
 from .snowflake import setup_snowflake_id_generator, snowflake
 from .ulid import ulid
-from uuid import uuid1, uuid3, uuid4, uuid5
+from .uuid import uuid
 from .xid import xid
 
 __all__ = [
@@ -15,9 +15,6 @@ __all__ = [
     "snowflake",
     "setup_snowflake_id_generator",
     "ulid",
-    "uuid1",
-    "uuid3",
-    "uuid4",
-    "uuid5",
+    "uuid",
     "xid",
 ]

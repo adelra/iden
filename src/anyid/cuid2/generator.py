@@ -101,9 +101,7 @@ class Cuid2Generator:  # pylint: disable=too-few-public-methods
         return first_letter + utils.create_hash(hash_input)[1 : length or self._length]
 
 
-# Module-level singleton instance of Cuid2Generator (lazy, thread-safe initialization)
-_cuid2_generator = None
-_cuid2_generator_lock = threading.Lock()
+_cuid2_generator = Cuid2Generator()
 
 
 def cuid2() -> str:
@@ -115,9 +113,4 @@ def cuid2() -> str:
     str
         A new, unique CUID2 string.
     """
-    global _cuid2_generator
-    if _cuid2_generator is None:
-        with _cuid2_generator_lock:
-            if _cuid2_generator is None:
-                _cuid2_generator = Cuid2Generator()
     return _cuid2_generator.generate()

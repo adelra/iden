@@ -1,4 +1,4 @@
-from anyid import cuid2
+from anyid.cuid2 import cuid2
 from anyid.cuid2 import Cuid2Generator, DEFAULT_LENGTH, MAXIMUM_LENGTH
 import pytest
 import re
