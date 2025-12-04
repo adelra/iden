@@ -24,16 +24,16 @@ _big_length = 32
 MAXIMUM_LENGTH = _big_length
 
 
-class Cuid:  # pylint: disable=too-few-public-methods
+class Cuid2Generator:  # pylint: disable=too-few-public-methods
     def __init__(
-        self: Cuid,
+        self: Cuid2Generator,
         random_generator: Callable[[], Random] = SystemRandom,
         counter: Callable[[int], Callable[[], int]] = utils.create_counter,
         length: int = _default_length,
         fingerprint: FingerprintCallable = utils.create_fingerprint,
     ) -> None:
         """
-        Initializes the Cuid class for generating CUIDs.
+        Initializes the Cuid2Generator class for generating CUIDs.
 
         Parameters
         ----------
@@ -66,7 +66,7 @@ class Cuid:  # pylint: disable=too-few-public-methods
         self._length: int = length
         self._fingerprint: str = fingerprint(random_generator=self._random)
 
-    def generate(self: Cuid, length: Optional[int] = None) -> str:
+    def generate(self: Cuid2Generator, length: Optional[int] = None) -> str:
         """
         Generates a CUID string.
 
@@ -100,21 +100,16 @@ class Cuid:  # pylint: disable=too-few-public-methods
         return first_letter + utils.create_hash(hash_input)[1 : length or self._length]
 
 
-def cuid_wrapper() -> Callable[[], str]:
+_cuid2_generator = Cuid2Generator()
+
+
+def cuid2() -> str:
     """
-    Creates a default CUID generator function.
-
-    This function wraps a single `Cuid` instance with default parameters,
-    providing a simple, zero-argument function for generating CUIDs.
-
+    Generates a new CUID2.
+    This function uses a module-level singleton instance of `Cuid2Generator`.
     Returns
     -------
-    Callable[[], str]
-        A function that, when called, returns a new CUID string.
+    str
+        A new, unique CUID2 string.
     """
-    cuid_generator: Cuid = Cuid()
-
-    def cuid() -> str:
-        return cuid_generator.generate()
-
-    return cuid
+    return _cuid2_generator.generate()

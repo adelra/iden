@@ -118,3 +118,20 @@ class KsuidGenerator:
         timestamp = current_time - KSUID_EPOCH
         payload = secrets.token_bytes(PAYLOAD_BYTES)
         return Ksuid(timestamp=timestamp, payload=payload)
+
+
+_ksuid_generator = KsuidGenerator()
+
+
+def ksuid() -> Ksuid:
+    """
+    Generates a new KSUID.
+
+    This function uses a module-level singleton instance of `KsuidGenerator`.
+
+    Returns
+    -------
+    Ksuid
+        A new, unique KSUID object.
+    """
+    return _ksuid_generator.generate()

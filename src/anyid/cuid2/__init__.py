@@ -2,14 +2,14 @@ from .generator import (
     DEFAULT_LENGTH,
     INITIAL_COUNT_MAX,
     MAXIMUM_LENGTH,
-    Cuid,
-    cuid_wrapper,
+    Cuid2Generator,
+    cuid2,
 )
 
 __all__ = [
-    "Cuid",
+    "Cuid2Generator",
+    "cuid2",
     "DEFAULT_LENGTH",
     "INITIAL_COUNT_MAX",
     "MAXIMUM_LENGTH",
-    "cuid_wrapper",
 ]

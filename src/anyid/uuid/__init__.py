@@ -1,3 +1,3 @@
-from .generator import UuidGenerator
+from .generator import UuidGenerator, uuid
 
-__all__ = ["UuidGenerator"]
+__all__ = ["UuidGenerator", "uuid"]
