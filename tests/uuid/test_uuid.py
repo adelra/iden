@@ -65,6 +65,18 @@ def test_name_based_uuids():
     assert uuid_v5_1 == uuid_v5_2
 
 
+def test_string_namespace():
+    """
+    Tests that a string namespace works for v3/v5.
+    """
+    namespace_uuid = _uuid.NAMESPACE_DNS
+    namespace_str = str(namespace_uuid)
+    name = "example.com"
+
+    assert uuid3(namespace_str, name) == uuid3(namespace_uuid, name)
+    assert uuid5(namespace_str, name) == uuid5(namespace_uuid, name)
+
+
 def test_invalid_version():
     """
     Tests that an invalid version raises a ValueError.
@@ -82,3 +94,15 @@ def test_missing_name():
 
     with pytest.raises(ValueError, match="name is required"):
         uuid(version=5)
+
+
+def test_missing_namespace():
+    """
+    Tests that a missing namespace for v3/v5 raises a TypeError.
+    """
+    name = "example.com"
+    with pytest.raises(TypeError):
+        uuid3(name=name)
+
+    with pytest.raises(TypeError):
+        uuid5(name=name)

@@ -38,13 +38,19 @@ class UuidGenerator:
         if version == 3:
             if name is None:
                 raise ValueError("name is required for version 3 UUID")
-            return _uuid.uuid3(namespace or _uuid.NAMESPACE_DNS, name)
+            ns = namespace or _uuid.NAMESPACE_DNS
+            if isinstance(ns, str):
+                ns = _uuid.UUID(ns)
+            return _uuid.uuid3(ns, name)
         if version == 4:
             return _uuid.uuid4()
         if version == 5:
             if name is None:
                 raise ValueError("name is required for version 5 UUID")
-            return _uuid.uuid5(namespace or _uuid.NAMESPACE_DNS, name)
+            ns = namespace or _uuid.NAMESPACE_DNS
+            if isinstance(ns, str):
+                ns = _uuid.UUID(ns)
+            return _uuid.uuid5(ns, name)
         raise ValueError("Unsupported UUID version")
 
     def uuid1(self) -> _uuid.UUID:
