@@ -3,7 +3,6 @@ Tests for the CUID generator.
 """
 
 from anyid.cuid import CuidGenerator, cuid
-import secrets
 
 
 def test_cuid_generator():

@@ -47,9 +47,7 @@ class Cuid2Generator:  # pylint: disable=too-few-public-methods
             msg = f"Length must be between 2 and {MAXIMUM_LENGTH} (inclusive)."
             raise ValueError(msg)
 
-        self._counter: Callable[[], int] = counter(
-            secrets.randbelow(INITIAL_COUNT_MAX)
-        )
+        self._counter: Callable[[], int] = counter(secrets.randbelow(INITIAL_COUNT_MAX))
         self._length: int = length
         self._fingerprint: str = fingerprint()
 
