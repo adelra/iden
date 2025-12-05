@@ -1,6 +1,6 @@
 import time
 import os
-import random
+import secrets
 import socket
 import threading
 
@@ -35,7 +35,7 @@ class CuidGenerator:
         self.base = 36
         self.block_size = 4
         self.discrete_values = self.base**self.block_size
-        self.counter = random.randint(0, self.discrete_values - 1)
+        self.counter = secrets.randbelow(self.discrete_values)
         self.lock = threading.Lock()  # To ensure thread-safe counter increments.
         self.fingerprint = self._get_fingerprint()
 
@@ -132,11 +132,11 @@ class CuidGenerator:
 
         # Generate two random blocks, each padded to block_size
         random_block1 = self._pad(
-            self._to_base36(random.randint(0, self.discrete_values - 1)),
+            self._to_base36(secrets.randbelow(self.discrete_values)),
             self.block_size,
         )
         random_block2 = self._pad(
-            self._to_base36(random.randint(0, self.discrete_values - 1)),
+            self._to_base36(secrets.randbelow(self.discrete_values)),
             self.block_size,
         )
 

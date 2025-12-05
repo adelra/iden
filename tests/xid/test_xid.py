@@ -218,10 +218,12 @@ def test_xid_sorting():
     xids = [generator.generate() for _ in range(5)]
 
     # Shuffle and sort
-    import random
+    import secrets
 
     shuffled = xids.copy()
-    random.shuffle(shuffled)
+    for i in range(len(shuffled) - 1, 0, -1):
+        j = secrets.randbelow(i + 1)
+        shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
     sorted_xids = sorted(shuffled)
 
     # Should match original order (or at least be valid)

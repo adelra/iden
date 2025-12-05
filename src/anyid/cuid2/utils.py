@@ -1,8 +1,7 @@
 from __future__ import annotations
 import string
-import secrets
-from math import floor
 from typing import TYPE_CHECKING, Callable, Final, Optional
+import secrets
 
 try:
     from hashlib import sha3_512 as sha512
@@ -21,7 +20,6 @@ BIG_LENGTH: Final = 32
 
 if TYPE_CHECKING:
     from hashlib import _Hash
-    from _random import Random
 
 
 def create_counter(count: int) -> Callable[[], int]:
@@ -50,9 +48,7 @@ def create_counter(count: int) -> Callable[[], int]:
 _process_fingerprint: Optional[str] = None
 
 
-def create_fingerprint(
-    random_generator: Random, fingerprint_data: Optional[str] = None
-) -> str:
+def create_fingerprint(fingerprint_data: Optional[str] = None) -> str:
     """
     Creates a machine fingerprint.
 
@@ -61,8 +57,6 @@ def create_fingerprint(
 
     Parameters
     ----------
-    random_generator : "Random"
-        A random number generator. Used only if `fingerprint_data` is provided.
     fingerprint_data : str, optional
         Custom data to be used for generating the fingerprint.
         If not provided, a random process-level fingerprint is used.
@@ -83,20 +77,16 @@ def create_fingerprint(
         return _process_fingerprint
 
     # The following logic is kept for backward compatibility but is not recommended.
-    fingerprint: str = str(fingerprint_data) + create_entropy(
-        random_generator, BIG_LENGTH
-    )
+    fingerprint: str = str(fingerprint_data) + create_entropy(BIG_LENGTH)
     return create_hash(fingerprint)[0:BIG_LENGTH]
 
 
-def create_entropy(random_generator: Random, length: int = 4) -> str:
+def create_entropy(length: int = 4) -> str:
     """
     Creates a random string for entropy.
 
     Parameters
     ----------
-    random_generator : "Random"
-        A random number generator.
     length : int, optional
         The desired length of the entropy string. Defaults to 4.
 
@@ -117,7 +107,7 @@ def create_entropy(random_generator: Random, length: int = 4) -> str:
     # TODO: make more readable
     entropy: str = ""
     while len(entropy) < length:
-        entropy += base36_encode(floor(random_generator.random() * 36))
+        entropy += base36_encode(secrets.randbelow(36))
     return entropy
 
 
@@ -145,14 +135,9 @@ def create_hash(data: str) -> str:
     return base36_encode(hashed_int)[1:]
 
 
-def create_letter(random_generator: Random) -> str:
+def create_letter() -> str:
     """
     Generates a random lowercase letter.
-
-    Parameters
-    ----------
-    random_generator : "Random"
-        A random number generator.
 
     Returns
     -------
@@ -160,7 +145,7 @@ def create_letter(random_generator: Random) -> str:
         A single random lowercase letter.
     """
     alphabet: str = string.ascii_lowercase
-    return alphabet[floor(random_generator.random() * len(alphabet))]
+    return secrets.choice(alphabet)
 
 
 def base36_encode(number: int) -> str:
