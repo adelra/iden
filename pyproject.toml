@@ -1,6 +1,6 @@
 [project]
 name = "anyid"
-version = "0.2.3"
+version = "0.2.4"
 description = "A unified Python ID generator library."
 authors = [{ name = "Adel Rahimi", email = "rahimi.adel@gmail.com" }]
 readme = "README.md"

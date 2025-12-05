@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/adelra/anyid/compare/v0.2.3...v0.2.4) (2025-12-05)
+
+
+### Bug Fixes
+
+* Replace random library with secrets ([#32](https://github.com/adelra/anyid/issues/32)) ([60bd186](https://github.com/adelra/anyid/commit/60bd186de9282169910214eca7f9f3caa19b846e))
+
 ## [0.2.3](https://github.com/adelra/anyid/compare/v0.2.2...v0.2.3) (2025-12-04)
 
 
