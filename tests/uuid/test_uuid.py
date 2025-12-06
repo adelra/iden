@@ -1,8 +1,8 @@
 import uuid as _uuid
-
+import time
 import pytest
 
-from anyid.uuid import UuidGenerator, uuid, uuid1, uuid3, uuid4, uuid5
+from anyid.uuid import UuidGenerator, uuid, uuid1, uuid3, uuid4, uuid5, uuid7, uuid8
 
 
 def test_uuid_generator():
@@ -27,6 +27,9 @@ def test_uuid_versions():
     assert uuid(version=3, namespace=namespace, name=name).version == 3
     assert uuid(version=5, namespace=namespace, name=name).version == 5
 
+    assert uuid(version=7).version == 7
+    assert uuid(version=8).version == 8
+
 
 def test_uuid_convenience_functions():
     """
@@ -39,6 +42,9 @@ def test_uuid_convenience_functions():
     name = "example.com"
     assert uuid3(namespace, name).version == 3
     assert uuid5(namespace, name).version == 5
+
+    assert uuid7().version == 7
+    assert uuid8().version == 8
 
 
 def test_uuid_collision():
@@ -106,3 +112,27 @@ def test_missing_namespace():
 
     with pytest.raises(TypeError):
         uuid5(name=name)
+
+
+def test_uuid7_timestamp():
+    """
+    Tests that UUIDv7 contains a correct timestamp.
+    """
+    u = uuid7()
+    # Extract timestamp (top 48 bits)
+    ts = u.int >> 80
+    now = int(time.time() * 1000)
+    # Allow 5 seconds tolerance (in case of slow test execution or clock skew)
+    assert abs(ts - now) < 5000
+    assert u.variant == _uuid.RFC_4122
+
+
+def test_uuid8_randomness():
+    """
+    Tests that UUIDv8 is generated and random.
+    """
+    u1 = uuid8()
+    u2 = uuid8()
+    assert u1 != u2
+    assert u1.version == 8
+    assert u1.variant == _uuid.RFC_4122
